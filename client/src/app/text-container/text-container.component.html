@@ -1,0 +1,38 @@
+<div class="text-container">
+  <img src="../../assets/fox.png" />
+  <img src="../../assets/fox.png" class="bottom" />
+
+  <div class="word-list">
+    <div class="wrapper" id="wrapper">
+      <!-- Completed words -->
+      <div #completedWordsDiv [innerHTML]="completedWords.join('')"></div>
+
+      <!-- Uncompleted words -->
+      <div *ngIf="uncompletedWords.length" #uncompletedWordsDiv [innerHTML]="fullText"></div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <input
+      type="text"
+      [(ngModel)]="inputField"
+      (ngModelChange)="onValueChanges()"
+      (keyup.Space)="onSpaceBarPress()"
+      [placeholder]="timerStarted ? '' : 'Ready? Timer will start when you start typing!'"
+    />
+  </div>
+
+  <div class="timer" *ngIf="timerStarted || (!timerStarted && completedLetters === 0)">
+    <p>{{ timer === 60 ? '01:00' : '00:' + timer.toString().padStart(2, '0') }}</p>
+  </div>
+
+  <div class="results" *ngIf="!timerStarted && completedLetters > 0">
+    <p>You typed {{ correctWords + incorrectWords }} words in 1 minute!</p>
+
+    <span class="correct">Correct: {{ correctWords }}</span>
+    <span> | </span>
+    <span class="incorrect">Incorrect: {{ incorrectWords }}</span>
+
+    <button (click)="restart()">Restart</button>
+  </div>
+</div>
